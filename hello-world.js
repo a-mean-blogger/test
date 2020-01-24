@@ -157,7 +157,6 @@ var HW = function(socket, name, language){
         input.mouse.update(e.layerX, e.layerY);
       },
       touchstart: function(e){
-        $('#output').html('touchstart');
         var touch = input.touch;
 
         e.preventDefault();
@@ -171,18 +170,18 @@ var HW = function(socket, name, language){
         touch.startY = parseInt(touchobj.pageY)-offset.top;
         touch.endX = parseInt(touchobj.pageX)-offset.left;
         touch.endY = parseInt(touchobj.pageY)-offset.top;
+          $('#output').html('touchstart\n\n'+JSON.stringify(input.touch, null, 2));
       },
       touchmove: function(e){
-        $('#output').html('touchmove');
         var touch = input.touch;
 
         var offset = $('canvas').offset();
         var touchobj = e.changedTouches[0];
         touch.endX = parseInt(touchobj.pageX)-offset.left;
         touch.endY = parseInt(touchobj.pageY)-offset.top;
+          $('#output').html('touchmove\n\n'+JSON.stringify(input.touch, null, 2));
       },
       touchend: function(e){
-        $('#output').html('touchend');
         var touch = input.touch;
 
         var time = new Date();
@@ -190,9 +189,10 @@ var HW = function(socket, name, language){
         if(touch.endTime-touch.startTime<500 && Math.abs(touch.endY-touch.startY)<10 && Math.abs(touch.endX-touch.startX<10)){
           input.mouse.update(touch.endX,touch.endY);
         }
-        touch.status = false;
+        touch.touched = false;
         touch.startX = null;
         touch.startY = null;
+          $('#output').html('touchend\n\n'+JSON.stringify(input.touch, null, 2));
       },
     },
     init: function(){
